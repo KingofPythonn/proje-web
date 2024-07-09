@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"  >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>Add Channel</title>
+    <style>
+        /* Add some basic styling to make the form look decent */
+        body {
+          font-family: Arial, sans-serif;
+        }
+        form {
+          max-width: 300px;
+          margin: 40px auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+          display: block;
+          margin-bottom: 10px;
+        }
+        input[type="text"] {
+          width: 100%;
+          height: 30px;
+          padding: 10px;
+          margin-bottom: 20px;
+          border: 1px solid #ccc;
+        }
+        button[type="submit"] {
+          background-color: #4CAF50;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        button[type="submit"]:hover {
+          background-color: #3e8e41;
+        }
+      </style>
+
+</head>
+<body style="background-color:  #a28089;">
+    <h1>Create Channel</h1>
+    <form id="channelForm">
+        <label for="channelName">Channel Name:</label>
+        <input type="text" id="channelName" name="channelName" required>
+        <button type="submit">Add Channel</button>
+    </form>
+
+    <script>
+        document.getElementById('channelForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            console.log(jsonData);
+
+            fetch('http://127.0.0.1:8000/creation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Channel added successfully');
+                } else {
+                    console.error('Failed to add channel');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
